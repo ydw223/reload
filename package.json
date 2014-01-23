@@ -1,0 +1,11 @@
+{
+    "name": "reload",
+
+    "version": "0.0.1",
+
+    "dependencies": {
+        "logger": "git://github.com/ydw223/logger.git"
+    },
+
+    "readmeFilename": "README.md"
+}

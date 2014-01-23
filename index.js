@@ -1,7 +1,7 @@
 var cluster = require('cluster');
 var os = require('os');
 var fs = require('fs');
-var logger = require('logger')('reload'); 
+var logger = require('logger');
 
 var Reload = function(master, worker) {
     if (!worker) {

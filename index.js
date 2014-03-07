@@ -62,6 +62,8 @@ Reload.prototype.run = function(numWorkers, pidPath) {
         process.on('SIGHUP', function() {
             logger.info('worker: reload');
 
+            process.emit('message', 'shutdown');
+
             for (var id in cluster.workers) {
                 fork(cluster.workers[id]);
             }

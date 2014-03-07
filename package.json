@@ -1,7 +1,7 @@
 {
     "name": "reload",
 
-    "version": "0.0.1",
+    "version": "0.0.2",
 
     "dependencies": {
         "logger": "git://github.com/ydw223/logger.git"

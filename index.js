@@ -19,6 +19,11 @@ Reload.prototype.run = function(numWorkers, pidPath) {
 
     if (cluster.isMaster) {
         var fork = function(old) {
+            if (old) {
+                old.removeAllListeners('exit');
+                old.send({command: 'reload'});
+            }
+
             var worker = cluster.fork();
 
             worker.once('exit', function() {
@@ -27,9 +32,8 @@ Reload.prototype.run = function(numWorkers, pidPath) {
 
             worker.once('listening', function() {
                 if (old) {
-                    old.removeAllListeners('exit');
-                    old.send('shutdown');
                     old.disconnect();
+                    old.send({command: 'disconnect'});
 
                     var timer = setTimeout(function() {
                         logger.warn('worker: ' + old.process.pid + ' timeout');
@@ -62,7 +66,7 @@ Reload.prototype.run = function(numWorkers, pidPath) {
         process.on('SIGHUP', function() {
             logger.info('worker: reload');
 
-            process.emit('message', 'shutdown');
+            process.emit('message', {command: 'reload'});
 
             for (var id in cluster.workers) {
                 fork(cluster.workers[id]);
